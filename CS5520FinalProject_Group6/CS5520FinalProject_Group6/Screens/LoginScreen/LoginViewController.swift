@@ -25,11 +25,11 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func registerTapped() {
-//        let registerVC = RegisterViewController()
-//        navigationController?.pushViewController(registerVC, animated: true)
         let registerVC = RegisterViewController()
-        let navController = UINavigationController(rootViewController: registerVC)
-        present(navController, animated: true, completion: nil)
+        navigationController?.pushViewController(registerVC, animated: true)
+//        let registerVC = RegisterViewController()
+//        let navController = UINavigationController(rootViewController: registerVC)
+//        present(navController, animated: true, completion: nil)
     }
 
 
@@ -75,10 +75,25 @@ class LoginViewController: UIViewController {
 
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
-            if let error = error {
-                self.showAlert("Login failed: \(error.localizedDescription)")
-                return
-            }
+//            if let error = error {
+//                self.showAlert("Login failed: \(error.localizedDescription)")
+//                return
+//            }
+            
+            if let error = error as NSError? {
+                    // Check Firebase error codes for specific cases
+                    switch AuthErrorCode(rawValue: error.code) {
+                    case .userNotFound:
+                        self.showAlert("No account found with this email address.")
+                    case .wrongPassword:
+                        self.showAlert("The email or password you entered is incorrect.")
+                    case .invalidEmail:
+                        self.showAlert("Please enter a valid email address.")
+                    default:
+                        self.showAlert("Login failed: \(error.localizedDescription)")
+                    }
+                    return
+                }
 
             // Create the MainTabBarController
             let mainTabBarController = MainTabBarController()

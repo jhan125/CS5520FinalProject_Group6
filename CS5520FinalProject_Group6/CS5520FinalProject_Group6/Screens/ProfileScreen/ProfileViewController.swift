@@ -183,37 +183,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 //    }
     
     @objc private func logoutTapped() {
-        let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Log Out",
+                                       message: "Are you sure you want to log out?",
+                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
-            do {
-                try Auth.auth().signOut()
-                // Replace root view controller with RegisterViewController
-                let registerVC = RegisterViewController()
-                let navigationController = UINavigationController(rootViewController: registerVC)
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let window = windowScene.windows.first {
-                    window.rootViewController = navigationController
-                    window.makeKeyAndVisible()
-                }
-            } catch let error {
-                print("Failed to log out: \(error.localizedDescription)")
-            }
+            self.performLogout()
         }))
         present(alert, animated: true)
     }
-
 
     private func performLogout() {
         do {
             try Auth.auth().signOut()
             redirectToWelcomeScreen()
         } catch let error {
-            print("Error signing out: \(error.localizedDescription)")
+            print("Failed to log out: \(error.localizedDescription)")
             showAlert("Failed to log out: \(error.localizedDescription)")
         }
     }
-    
+
     private func redirectToWelcomeScreen() {
         let welcomeVC = WelcomeViewController() // Replace with your WelcomeViewController initialization
         let navController = UINavigationController(rootViewController: welcomeVC)
@@ -221,9 +210,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Safely update the rootViewController
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {
-            window.rootViewController = navController
-            window.makeKeyAndVisible()
+            UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromRight, animations: {
+                window.rootViewController = navController
+            }, completion: nil)
         }
     }
+
    
 }

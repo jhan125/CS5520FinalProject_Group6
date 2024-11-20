@@ -24,6 +24,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         title = "Sign Up"
         view.backgroundColor = UIColor(named: "PrimaryColor")
 
+        print("Current navigation stack: \(navigationController?.viewControllers ?? [])")
+
         setupNavigationBar()
         setupImageView()
         setupButtonActions()
@@ -164,12 +166,26 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             showAlert("Passwords do not match.")
             return
         }
+        
+        print("Registering with email: \(email), password: \(password)")
+
 
         // Firebase registration
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
-            if let error = error {
-                self.showAlert("Registration failed: \(error.localizedDescription)")
+            
+            if let error = error as NSError? {
+                print("Firebase Error: \(error.localizedDescription), Code: \(error.code)")
+                
+                // Handle specific Firebase errors
+                if error.code == AuthErrorCode.emailAlreadyInUse.rawValue {
+                    self.showAlert("The email address is already registered. Please use a different email.")
+                } else if error.code == AuthErrorCode.invalidEmail.rawValue {
+                    self.showAlert("The email address is not valid. Please enter a correct email.")
+                } else {
+                    self.showAlert("Registration failed: \(error.localizedDescription)")
+                }
+                
                 return
             }
 
@@ -201,6 +217,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                     message: "Your account has been created successfully. You can now log in.",
                     actionTitle: "Go to Login"
                 ) {
+                    print("Navigating back to the login screen")
                     self.navigationController?.popViewController(animated: true) // Navigate back to Login screen
                 }
             }

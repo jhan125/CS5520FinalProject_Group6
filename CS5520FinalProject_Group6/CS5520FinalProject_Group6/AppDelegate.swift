@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseCore
-import CoreData // Import CoreData framework
+import CoreData 
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,35 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return container
     }()
 
-    
     // MARK: - Save Core Data Context
-//    func saveContext() {
-//        let context = persistentContainer.viewContext
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }
-    
     func saveContext() {
-            let context = persistentContainer.viewContext
-            context.perform {
-                if context.hasChanges {
-                    do {
-                        try context.save()
-                        print("Core Data context saved successfully")
-                    } catch {
-                        let nserror = error as NSError
-                        print("Failed to save Core Data context: \(nserror), \(nserror.userInfo)")
-                        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                    }
-                }
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
     
     // MARK: - App Lifecycle
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -61,20 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         print("Firebase configured successfully")
 
-        do {
-            let settings = FirestoreSettings()
-            settings.isPersistenceEnabled = false // Disable offline caching
-            Firestore.firestore().settings = settings
-            print("Firestore settings configured successfully")
-        } catch {
-            print("Error configuring Firestore: \(error.localizedDescription)")
-        }
-        
-        if FirebaseApp.app() == nil {
-            print("Firebase is not properly configured")
-        } else {
-            print("Firebase is properly configured")
-        }
+        let settings = FirestoreSettings()
+        settings.isPersistenceEnabled = false // Disable offline caching
+        Firestore.firestore().settings = settings
 
         
         return true
