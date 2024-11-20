@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "PrimaryColor")
 
         // Hide the back button
         navigationItem.hidesBackButton = true

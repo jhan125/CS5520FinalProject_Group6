@@ -1,3 +1,9 @@
+//
+// ProfileView.swift
+// Modified by Jiali Han on 11/20/24.
+// Added Sign out feature.
+// Set UI Color to match the layout design.
+
 import UIKit
 
 class ProfileView: UIView {
@@ -8,6 +14,7 @@ class ProfileView: UIView {
     let emailTextField = UITextField()
     let editButton = UIButton()
     let saveChangesButton = UIButton()
+    let logoutButton = UIButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,18 +51,26 @@ class ProfileView: UIView {
 
         // Configure Edit Button
         editButton.setTitle("Edit Profile", for: .normal)
-        editButton.backgroundColor = .darkGray
+//        editButton.backgroundColor = .darkGray
+        editButton.backgroundColor = UIColor(named: "DarkColor")
         editButton.setTitleColor(.white, for: .normal)
         editButton.layer.cornerRadius = 5
         editButton.translatesAutoresizingMaskIntoConstraints = false
 
         // Configure Save Changes Button
         saveChangesButton.setTitle("Save Changes", for: .normal)
-        saveChangesButton.backgroundColor = .darkGray
+        saveChangesButton.backgroundColor = UIColor(named: "DarkColor") // Use color defined
         saveChangesButton.setTitleColor(.white, for: .normal)
         saveChangesButton.layer.cornerRadius = 5
         saveChangesButton.translatesAutoresizingMaskIntoConstraints = false
         saveChangesButton.isHidden = true // Initially hidden
+        
+        logoutButton.setTitle("Log Out", for: .normal)
+        logoutButton.setTitleColor(.white, for: .normal)
+        logoutButton.backgroundColor = UIColor(named: "DarkColor") // Use color defined
+        logoutButton.layer.cornerRadius = 8
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        
 
         // Add Subviews
         addSubview(profileImageView)
@@ -63,6 +78,7 @@ class ProfileView: UIView {
         addSubview(emailTextField)
         addSubview(editButton)
         addSubview(saveChangesButton)
+        addSubview(logoutButton)
 
         // Layout Constraints
         NSLayoutConstraint.activate([
@@ -92,7 +108,12 @@ class ProfileView: UIView {
             saveChangesButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
             saveChangesButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             saveChangesButton.widthAnchor.constraint(equalToConstant: 150),
-            saveChangesButton.heightAnchor.constraint(equalToConstant: 40)
+            saveChangesButton.heightAnchor.constraint(equalToConstant: 40),
+            
+           logoutButton.topAnchor.constraint(equalTo: saveChangesButton.bottomAnchor, constant: 20),
+           logoutButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+           logoutButton.widthAnchor.constraint(equalToConstant: 150),
+           logoutButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }

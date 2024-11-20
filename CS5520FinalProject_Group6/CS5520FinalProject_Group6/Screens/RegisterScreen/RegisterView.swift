@@ -1,6 +1,6 @@
 //
 //  RegisterView.swift
-//
+//  Set UI Color to match the layout design.
 
 import UIKit
 
@@ -56,7 +56,8 @@ class RegisterView: UIView {
 
         // Configure signup button
         signupButton.setTitle("Sign Up", for: .normal)
-        signupButton.backgroundColor = .darkGray
+//        signupButton.backgroundColor = .darkGray
+        signupButton.backgroundColor = UIColor(named: "DarkColor")
         signupButton.setTitleColor(.white, for: .normal)
         signupButton.layer.cornerRadius = 5
         signupButton.translatesAutoresizingMaskIntoConstraints = false

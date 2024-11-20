@@ -14,6 +14,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "PrimaryColor")
         setupActions()
     }
     

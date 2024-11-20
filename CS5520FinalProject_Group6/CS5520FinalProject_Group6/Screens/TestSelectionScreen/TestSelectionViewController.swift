@@ -1,12 +1,26 @@
+//
+// TestSelectionViewController.swift
+// 
+// Modified by Jiali Han on 11/20/24.
+// Added a few more tests for more user options.
+
 import UIKit
 
 class TestSelectionViewController: UIViewController {
 
-    private let testButtons: [UIButton] = ["Stress Quiz", "Depression Quiz", "Bipolar Quiz", "PTSD Quiz"].map {
+    private let testButtons: [UIButton] =
+    ["Stress Quiz",
+     "Depression Quiz",
+     "Bipolar Quiz",
+     "PTSD Quiz",
+     "Anxiety Quiz",
+     "ADHD Quiz",
+     "Addiction Quiz"
+    ].map {
         let button = UIButton(type: .system)
         button.setTitle($0, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        button.backgroundColor = .lightGray
+        button.backgroundColor = UIColor(named: "DarkColor")
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         return button
@@ -14,7 +28,8 @@ class TestSelectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        title = "Mental Health Quiz"
+        view.backgroundColor = UIColor(named: "PrimaryColor")
         setupUI()
     }
 
@@ -96,6 +111,45 @@ class TestSelectionViewController: UIViewController {
                 "I feel detached from reality, like things are happening around me but I’m not truly present.",
                 "I avoid places, people, or situations that remind me of the traumatic event."
             ]
+        case "Anxiety Quiz":
+                questions = [
+                    "I feel tense or nervous without a clear reason.",
+                    "I have trouble concentrating due to feelings of worry.",
+                    "I often feel restless or find it hard to stay calm.",
+                    "I experience physical symptoms like a racing heart or sweating during anxiety.",
+                    "I avoid certain situations because they make me anxious.",
+                    "I worry about events or situations that might not happen.",
+                    "I feel like my mind is always racing with anxious thoughts.",
+                    "I have trouble sleeping because of worry or overthinking.",
+                    "I find it hard to control my worries even when I try.",
+                    "I often feel a sense of impending doom or danger."
+                ]
+            case "Addiction Quiz":
+                questions = [
+                    "I find it hard to stop a habit even when I know it’s harmful.",
+                    "I feel a strong craving or urge to engage in a specific behavior.",
+                    "I have tried to quit but keep relapsing into the habit.",
+                    "I spend a lot of time thinking about or planning for the behavior.",
+                    "I neglect responsibilities because of this habit or behavior.",
+                    "I experience withdrawal symptoms when I try to stop.",
+                    "I have lied to others about the extent of my habit or behavior.",
+                    "I have continued the behavior despite negative consequences.",
+                    "I use this behavior or substance to cope with stress or emotions.",
+                    "I feel unable to function normally without engaging in the behavior."
+                ]
+            case "ADHD Quiz":
+                questions = [
+                    "I often find it hard to focus on tasks or conversations.",
+                    "I feel restless and find it hard to sit still for long periods.",
+                    "I frequently interrupt others or blurt out answers.",
+                    "I struggle with organizing tasks or activities.",
+                    "I often lose things needed for daily tasks, like keys or phones.",
+                    "I forget to complete tasks or appointments, even with reminders.",
+                    "I feel overwhelmed by detailed instructions or tasks.",
+                    "I act impulsively without thinking of the consequences.",
+                    "I find it hard to finish projects that require sustained focus.",
+                    "I feel easily distracted by external stimuli or my own thoughts."
+                ]
         default:
             questions = []
         }

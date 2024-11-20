@@ -1,3 +1,11 @@
+//
+//  RegisterViewController.swift
+//
+//  Created by Zhiqian Zhang on 11/17/24.
+// 
+//  Created by Jiali Han on 11/19/24.
+//  Set UI Color to match the layout design.
+
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
@@ -14,11 +22,35 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Sign Up"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "PrimaryColor")
 
+        setupNavigationBar()
         setupImageView()
         setupButtonActions()
         disableAutofillForPasswordFields() // Disable autofill for password fields
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    private func setupNavigationBar() {
+        // Set title for the navigation bar
+        title = "Sign Up"
+
+        // Add a back button
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Back",
+            style: .plain,
+            target: self,
+            action: #selector(backTapped)
+        )
+    }
+
+    @objc private func backTapped() {
+        // Pop the view controller to navigate back
+        navigationController?.popViewController(animated: true)
     }
 
     private func setupImageView() {

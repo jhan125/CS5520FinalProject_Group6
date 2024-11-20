@@ -1,3 +1,9 @@
+//
+// Modified by Jiali Han on 11/19/24.
+//
+// Added Log out feature that redirects to Welcome Screen.
+// Set UI Color to match the layout design.
+
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
@@ -14,6 +20,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "PrimaryColor")
         title = "Profile"
         setupUI()
         setupActions()
@@ -33,13 +40,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileView.nameTextField.isUserInteractionEnabled = true
     }
 
-    private func setupActions() {
-        profileView.saveChangesButton.addTarget(self, action: #selector(saveChangesTapped), for: .touchUpInside)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectProfileImage))
-        profileView.profileImageView.isUserInteractionEnabled = true
-        profileView.profileImageView.addGestureRecognizer(tapGesture)
-    }
+//    private func setupActions() {
+//        profileView.saveChangesButton.addTarget(self, action: #selector(saveChangesTapped), for: .touchUpInside)
+//
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectProfileImage))
+//        profileView.profileImageView.isUserInteractionEnabled = true
+//        profileView.profileImageView.addGestureRecognizer(tapGesture)
+//    }
 
     private func loadUserProfileData() {
         guard let userID = Auth.auth().currentUser?.uid else { return }
@@ -143,4 +150,80 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }))
         present(alert, animated: true)
     }
+    
+    private func setupActions() {
+        profileView.saveChangesButton.addTarget(self, action: #selector(saveChangesTapped), for: .touchUpInside)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectProfileImage))
+        profileView.profileImageView.isUserInteractionEnabled = true
+        profileView.profileImageView.addGestureRecognizer(tapGesture)
+
+        // Add logout button action
+        profileView.logoutButton.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+    }
+
+//    @objc private func logoutTapped() {
+//        // Show confirmation alert
+//       let alert = UIAlertController(
+//           title: "Log Out",
+//           message: "Are you sure you want to log out?",
+//           preferredStyle: .alert
+//       )
+//
+//       // Add "Yes" action to confirm logout
+//       alert.addAction(UIAlertAction(title: "Yes", style: .destructive) { _ in
+//           self.performLogout()
+//       })
+//
+//       // Add "Cancel" action to dismiss the alert
+//       alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//
+//       // Present the alert
+//       present(alert, animated: true)
+//    }
+    
+    @objc private func logoutTapped() {
+        let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
+            do {
+                try Auth.auth().signOut()
+                // Replace root view controller with RegisterViewController
+                let registerVC = RegisterViewController()
+                let navigationController = UINavigationController(rootViewController: registerVC)
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    window.rootViewController = navigationController
+                    window.makeKeyAndVisible()
+                }
+            } catch let error {
+                print("Failed to log out: \(error.localizedDescription)")
+            }
+        }))
+        present(alert, animated: true)
+    }
+
+
+    private func performLogout() {
+        do {
+            try Auth.auth().signOut()
+            redirectToWelcomeScreen()
+        } catch let error {
+            print("Error signing out: \(error.localizedDescription)")
+            showAlert("Failed to log out: \(error.localizedDescription)")
+        }
+    }
+    
+    private func redirectToWelcomeScreen() {
+        let welcomeVC = WelcomeViewController() // Replace with your WelcomeViewController initialization
+        let navController = UINavigationController(rootViewController: welcomeVC)
+
+        // Safely update the rootViewController
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = navController
+            window.makeKeyAndVisible()
+        }
+    }
+   
 }

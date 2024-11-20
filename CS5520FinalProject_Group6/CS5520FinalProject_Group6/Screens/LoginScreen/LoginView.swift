@@ -1,5 +1,8 @@
 //
 //  LoginView.swift
+//  Modified by Jiali Han on 11/19/24.
+//  
+//  Set UI Color to match the layout design.
 //
 
 import UIKit
@@ -35,13 +38,13 @@ class LoginView: UIView {
         
         // Configure register prompt label
         registerPromptLabel.text = "Don't have an account?"
-        registerPromptLabel.font = UIFont.systemFont(ofSize: 16)
+        registerPromptLabel.font = UIFont.systemFont(ofSize: 20)
         registerPromptLabel.textColor = .black
         
         // Configure register link button
         registerLinkButton.setTitle("Register now!", for: .normal)
         registerLinkButton.setTitleColor(.systemBlue, for: .normal)
-        registerLinkButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        registerLinkButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         registerLinkButton.contentHorizontalAlignment = .left
 
         // Create register prompt stack
@@ -65,7 +68,8 @@ class LoginView: UIView {
         
         // Configure login button
         loginButton.setTitle("Log in", for: .normal)
-        loginButton.backgroundColor = .darkGray
+//        loginButton.backgroundColor = .darkGray
+        loginButton.backgroundColor = UIColor(named: "DarkColor")
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.layer.cornerRadius = 5
         loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -109,7 +113,8 @@ class LoginView: UIView {
             loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
             loginButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: 120),
-            loginButton.heightAnchor.constraint(equalToConstant: 40)
+            loginButton.heightAnchor.constraint(equalToConstant: 40),
+            
         ])
     }
 }

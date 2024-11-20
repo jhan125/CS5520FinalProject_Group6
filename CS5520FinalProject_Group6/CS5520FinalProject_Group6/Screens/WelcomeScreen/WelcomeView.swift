@@ -2,7 +2,10 @@
 //  HomeView.swift
 //
 //  Created by NIKITA LIANG on 11/4/24.
+//  Modified by JIALI HAN on 11/19/24
+//  Reset UI Color to match the layout design.
 //
+
 import UIKit
 
 class WelcomeView: UIView {
@@ -23,7 +26,7 @@ class WelcomeView: UIView {
     }
     
     private func setupUI() {
-        backgroundColor = .white
+//        backgroundColor = .white
         
         // Configure logo image
         logoImageView.image = UIImage(named: "MindYourMind") // Ensure the image is added to assets
@@ -37,14 +40,16 @@ class WelcomeView: UIView {
         
         // Configure login button
         loginButton.setTitle("Log In", for: .normal)
-        loginButton.backgroundColor = .darkGray
+//        loginButton.backgroundColor = .darkGray
+        loginButton.backgroundColor = UIColor(named: "DarkColor");
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.layer.cornerRadius = 5
         loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         
         // Configure signup button
         signupButton.setTitle("Sign Up", for: .normal)
-        signupButton.backgroundColor = .darkGray
+//        signupButton.backgroundColor = .darkGray
+        signupButton.backgroundColor = UIColor(named: "DarkColor");
         signupButton.setTitleColor(.white, for: .normal)
         signupButton.layer.cornerRadius = 5
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
