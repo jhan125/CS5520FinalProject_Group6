@@ -60,6 +60,10 @@ class HomeViewController: UIViewController {
         }
         navigationController?.pushViewController(profileVC, animated: true)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadUpdatedUsername()
+    }
 
     @objc private func logoutTapped() {
         navigationController?.popToRootViewController(animated: true)

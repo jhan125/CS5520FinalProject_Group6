@@ -4,23 +4,25 @@
 //
 //  Created by Jiali Han on 11/19/24.
 //  Implemented the bottom bar that can navigates to different screens.
-// 
+//
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = self
         
         // Create view controllers for each tab
         let profileVC = ProfileViewController()
-        let quizVC = TestSelectionViewController()
+        //let quizVC = TestSelectionViewController()
+        let homepageVC = HomeViewController()
         let resultsVC = SummaryViewController()
         
         // Wrap each view controller in a navigation controller
         let profileNav = UINavigationController(rootViewController: profileVC)
-        let quizNav = UINavigationController(rootViewController: quizVC)
+        let quizNav = UINavigationController(rootViewController: homepageVC)
         let resultsNav = UINavigationController(rootViewController: resultsVC)
         
         // Assign tab bar items
@@ -31,6 +33,8 @@ class MainTabBarController: UITabBarController {
         // Set the view controllers of the tab bar
         self.viewControllers = [profileNav, quizNav, resultsNav]
         
+        // Customize appearance
+        //customizeTabBarAppearance()
         // Customize appearance if needed
         tabBar.tintColor = .blue
         tabBar.backgroundColor = .white
@@ -38,8 +42,13 @@ class MainTabBarController: UITabBarController {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if let navController = viewController as? UINavigationController,
-           let resultsVC = navController.viewControllers.first as? SummaryViewController {
-            resultsVC.fetchTestRecords() // Refresh test records when "Results" tab is selected
+           /*
+            let resultsVC = navController.viewControllers.first as? SummaryViewController {
+                        resultsVC.fetchTestRecords() // Refresh test records when "Results" tab is selected
+                    }
+            */
+           let homepageVC = navController.viewControllers.first as? HomeViewController {
+            navController.popToRootViewController(animated: false)
         }
     }
     
@@ -47,28 +56,25 @@ class MainTabBarController: UITabBarController {
         // Create an instance of UITabBarAppearance
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-
+        
         // Set the background color dynamically from Assets
-        appearance.backgroundColor = UIColor(named: "PrimaryColor") // Automatically adapts to light/dark mode
-
-        // Set item colors for selected and unselected states
+        appearance.backgroundColor = UIColor(named: "PrimaryColor")// Automatically adapts to light/dark mode
+        
         appearance.stackedLayoutAppearance.selected.iconColor = UIColor(named: "TabItemSelected")
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
             .foregroundColor: UIColor(named: "TabItemSelected") ?? .blue
         ]
-
+        
         appearance.stackedLayoutAppearance.normal.iconColor = UIColor(named: "TabItemUnselected")
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor(named: "TabItemUnselected") ?? .gray
         ]
-
         // Apply appearance to the tab bar
         tabBar.standardAppearance = appearance
-
+        
         // For iOS 15+, apply scrollEdgeAppearance as well
         if #available(iOS 15.0, *) {
             tabBar.scrollEdgeAppearance = appearance
         }
     }
-
 }
