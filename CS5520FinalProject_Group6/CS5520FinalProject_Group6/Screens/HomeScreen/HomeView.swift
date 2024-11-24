@@ -59,7 +59,7 @@ class HomeView: UIView {
         // Configure Start Tests Button
         startTestsButton.setTitle("Choose a Test", for: .normal)
         startTestsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        startTestsButton.backgroundColor = .blue
+        startTestsButton.backgroundColor = UIColor(named: "DarkColor")
         startTestsButton.setTitleColor(.white, for: .normal)
         startTestsButton.layer.cornerRadius = 8
         startTestsButton.translatesAutoresizingMaskIntoConstraints = false
